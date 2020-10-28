@@ -1,0 +1,22 @@
+{
+  "name": "articleworld",
+  "version": "1.0.0",
+  "description": "a simple app for creating articles",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/justAname947/articleWorld.git"
+  },
+  "keywords": [
+    "education"
+  ],
+  "author": "justAnAuthor",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/justAname947/articleWorld/issues"
+  },
+  "homepage": "https://github.com/justAname947/articleWorld#readme"
+}
