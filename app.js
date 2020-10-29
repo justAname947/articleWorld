@@ -1,6 +1,15 @@
 const express = require('express');
-const app = express();
 const expressLayouts = require('express-ejs-layouts');
+const mongoose = require('mongoose');
+
+const app = express();
+
+
+// Mongo connection
+const {MongoDbUrl} = require('./config/key');
+mongoose.connect(MongoDbUrl, {useNewUrlParser: true, useUnifiedTopology: true})
+.then(() => console.log("Mongo database successfully connected"))
+.catch(err => console.log(err));
 
 
 // Express layouts middleware + setting EJS as view engine
