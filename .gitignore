@@ -1,5 +1,5 @@
 #ignore the whole folder
-node_modules/*
+/node_modules
 
 config/*
 !config/.gitkeep
