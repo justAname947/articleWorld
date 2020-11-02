@@ -1,4 +1,3 @@
-const { render } = require('ejs');
 const express = require('express');
 const router = express.Router();
 
@@ -9,27 +8,32 @@ router.get('/register', (req, res) => {
 
 //POST Register
 router.post('/register', (req, res) => {
-    const { email, password, password2 } = req.body;
-    const errors = [];
+    const { name, email, password, password2 } = req.body;
 
+    const errors = [];
+    
+    if(name.length < 4){
+        errors.push({msg : "Name too short."})
+    
+    }
+    
     if( password.length < 6 || password2.length < 6 ){
         errors.push({msg : "Passwords must be atleast 7 characters long."});
-        console.log("password not long enough");
-
-        res.render('register',{
-            errors
-        });
     }
+    
     if(password !== password2){
         errors.push({msg : "Passwords do not match"});
-        console.log("passwords dont match.");
-        res.render('register',{
-            errors
-        });
-        
     }
+    
+    if(errors.length >1){
+        res.render('register',{
+            errors,
+            name,
+            email,
+        });
+    }
+    
 
-    res.send('success 3');
 
 })
 
