@@ -1,5 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
+
+//Load model
+const User = require('../models/User.js')
 
 // GET Register
 router.get('/register', (req, res) => {
@@ -31,6 +35,30 @@ router.post('/register', (req, res) => {
             name,
             email,
         });
+    }else{
+        //check if email is registered
+        User.findOne({email}).then(user =>{
+            if(user){
+                //registered
+                errors.push({msg : " User already registered."})
+                res.render('register',{
+                    name,
+                    email,
+                    password
+                });
+                
+            }else{  
+                //save user
+                const newUser = new User({
+                    email,name,password
+                })
+                newUser.save().then(user =>{
+                    req.flash('success_msg', 'You have successfully registered')
+                }).catch(err=>console.log(err));
+                res.render('login')
+            }
+        })
+        
     }
     
 
