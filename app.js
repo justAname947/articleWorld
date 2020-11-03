@@ -3,6 +3,7 @@ const expressLayouts = require('express-ejs-layouts');
 const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const session = require('express-session');
+const passport = require('passport');
 
 const app = express();
 
@@ -15,6 +16,13 @@ app.use(
       saveUninitialized: true
     })
   );
+
+//Passport config
+require('./config/passport')(passport);
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 // URL Parser
 app.use(express.urlencoded({extended: true}));
