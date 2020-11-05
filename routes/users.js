@@ -2,9 +2,12 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
+const bcryptjs = require('bcryptjs');
+
+const { authenticatedUser } = require('../config/auth.js');
 
 // Load model
-const User = require('../models/User.js')
+const User = require('../models/User')
 
 // GET Register
 router.get('/register', (req, res) => {
@@ -53,10 +56,19 @@ router.post('/register', (req, res) => {
                 const newUser = new User({
                     email,name,password
                 })
-                newUser.save().then(user =>{
-                    req.flash('success_msg', 'You have successfully registered')
-                }).catch(err=>console.log(err));
-                res.render('login')
+                //hash password
+                bcryptjs.genSalt(10, (err, salt)=>
+                bcryptjs.hash(newUser.password, salt, (err, hashedPwd)=>{
+                    if(err) throw err;
+                    newUser.password = hashedPwd;
+                    newUser.save().then(user =>{
+                        req.flash('success_msg', 'You have successfully registered')
+                    }).catch(err=>console.log(err));
+                    res.render('login')
+                }));
+
+
+                
             }
         })
         

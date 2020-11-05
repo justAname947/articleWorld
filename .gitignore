@@ -3,3 +3,5 @@ node_modules/
 
 config/*
 !config/.gitkeep
+!config/passport.js
+!config/auth.js

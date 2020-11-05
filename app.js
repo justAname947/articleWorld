@@ -32,7 +32,7 @@ app.use(flash());
 
 //Global varibales
 app.use(function (req, res, next) {
-  res.locals.error = req.flash('error');
+  res.locals.error = req.flash('error'); //this is where passport pushes errors...i think, i hope. im a believer
   res.locals.success = req.flash('success');
   res.locals.errors = req.flash('errors');
   next();
@@ -40,6 +40,7 @@ app.use(function (req, res, next) {
 
 // Mongo connection
 const {MongoDbUrl} = require('./config/key');
+const { authenticatedUser } = require('./config/auth');
 mongoose.connect(MongoDbUrl, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => console.log("Mongo database successfully connected"))
 .catch(err => console.log(err));
@@ -51,10 +52,15 @@ app.set('view engine', 'ejs');
 
 
 // Routes
-app.use('/users', require('./routes/users.js'));
+app.use('/users', require('./routes/users'));
 
 app.use('/', (req, res)=>{
-  res.redirect('/users/login');
+  //res.redirect('/users/login');
+  res.send('/ - accessed')
+})
+
+app.use('/dashboard', authenticatedUser, (req, res)=>{
+  res.render('dashboard');
 })
 const PORT = process.env.PORT | 3000
 app.listen(3000, () => console.log(`Server started on port: ${PORT}`));
