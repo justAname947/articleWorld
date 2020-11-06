@@ -54,12 +54,12 @@ app.set('view engine', 'ejs');
 // Routes
 app.use('/users', require('./routes/users'));
 
-app.use('/', (req, res)=>{
+app.get('/', (req, res)=>{
   //res.redirect('/users/login');
   res.send('/ - accessed')
 })
 
-app.use('/dashboard', authenticatedUser, (req, res)=>{
+app.get('/dashboard', authenticatedUser, (req, res)=>{
   res.render('dashboard');
 })
 const PORT = process.env.PORT | 3000

@@ -12,14 +12,12 @@ module.exports = function(passport){
             User.findOne({email:email})
             .then(user => {
                 if(!user){
-                    console.log("email does not exit");
                     return done(null, false, { message :'This email does not exist.'});
                 }
                 // match password
-                bcryptjs.compare(password, user.password, (err, isMatched)=>{
+                bcryptjs.compare(password, user.password, (err, isMatched) => {
                     if(err) throw err;
                     if(isMatched){
-                        console.log('It went threw.')
                         return done(null, user);
                     }else{
                     console.log("incorrect password");

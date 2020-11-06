@@ -21,19 +21,19 @@ router.post('/register', (req, res) => {
     const errors = [];
     
     if(name.length < 4){
-        errors.push({msg : "Name too short."})
+        errors.push({msg : "Name must be atleast 4 letters."})
     
     }
     
     if( password.length < 6 || password2.length < 6 ){
-        errors.push({msg : "Passwords must be atleast 7 characters long."});
+        errors.push({msg : "Passwords must be atleast 6 characters long."});
     }
     
     if(password !== password2){
         errors.push({msg : "Passwords do not match"});
     }
     
-    if(errors.length >1){
+    if(errors.length >= 1 ){
         res.render('register',{
             errors,
             name,
@@ -46,6 +46,7 @@ router.post('/register', (req, res) => {
                 //registered
                 errors.push({msg : " User already registered."})
                 res.render('register',{
+                    errors,
                     name,
                     email,
                     password
@@ -92,4 +93,10 @@ router.post('/login', (req, res, next) => {
     })(req,res, next);
 });
 
+router.get('/logout', (req, res)=>{
+    req.logout();
+    req.flash('success', 'You have successfully logged out');
+    res.redirect('login')
+});
 module.exports = router;
+
