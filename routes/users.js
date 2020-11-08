@@ -4,13 +4,13 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const bcryptjs = require('bcryptjs');
 
-const { authenticatedUser } = require('../config/auth.js');
+const { authenticatedUser, mustNotBeAuthed } = require('../config/auth.js');
 
 // Load model
 const User = require('../models/User')
 
 // GET Register
-router.get('/register', (req, res) => {
+router.get('/register', mustNotBeAuthed, (req, res) => {
     res.render('register');
 });
 
@@ -80,7 +80,7 @@ router.post('/register', (req, res) => {
 })
 
 // GET login
-router.get('/login', (req, res) => {
+router.get('/login', mustNotBeAuthed, (req, res) => {
     res.render('login');
 });
 

@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
-
+const { authenticatedUser } = require('./config/auth');
 const app = express();
 
 
@@ -40,7 +40,7 @@ app.use(function (req, res, next) {
 
 // Mongo connection
 const {MongoDbUrl} = require('./config/key');
-const { authenticatedUser } = require('./config/auth');
+
 mongoose.connect(MongoDbUrl, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => console.log("Mongo database successfully connected"))
 .catch(err => console.log(err));
@@ -55,12 +55,13 @@ app.set('view engine', 'ejs');
 app.use('/users', require('./routes/users'));
 
 app.get('/', (req, res)=>{
-  //res.redirect('/users/login');
-  res.send('/ - accessed')
+  res.redirect('/users/login');
 })
 
 app.get('/dashboard', authenticatedUser, (req, res)=>{
-  res.render('dashboard');
+  res.render('dashboard', { 
+    user : req.user
+  });
 })
 const PORT = process.env.PORT | 3000
 app.listen(3000, () => console.log(`Server started on port: ${PORT}`));
