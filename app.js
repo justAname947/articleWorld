@@ -35,6 +35,7 @@ app.use(function (req, res, next) {
   res.locals.error = req.flash('error'); //this is where passport pushes errors...i think, i hope. im a believer
   res.locals.success = req.flash('success');
   res.locals.errors = req.flash('errors');
+  res.locals.loginStatus = req.isAuthenticated();
   next();
 });
 
