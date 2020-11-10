@@ -54,14 +54,20 @@ app.set('view engine', 'ejs');
 
 // Routes
 app.use('/users', require('./routes/users'));
+app.use('/articles', require('./routes/articles'));
 
-app.get('/', (req, res)=>{
+app.get('/', (req, res) => {
   res.redirect('/users/login');
-})
+});
 
-app.get('/dashboard', authenticatedUser, (req, res)=>{
+// Load articles model
+const Article = require('./models/Article')
+
+app.get('/dashboard', authenticatedUser, async (req, res)=>{
+  const articles = await Article.find({});
   res.render('dashboard', { 
-    user : req.user
+    user : req.user,
+    articles
   });
 })
 const PORT = process.env.PORT | 3000
