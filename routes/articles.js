@@ -46,7 +46,7 @@ router.get('/deleteConfirm/:id', async (req, res) => {
     })
 })
 
-// Get delete
+// GET delete
 
 router.get('/delete/:id', async (req, res) => {
     //delete from database
@@ -57,4 +57,34 @@ router.get('/delete/:id', async (req, res) => {
     res.redirect('/dashboard');
 })
 
+// GET edit article
+
+router.get('/edit/:id', async (req, res)=>{
+    await Article.findById(req.params.id, (err, article) => {
+        if(err) throw err;
+        res.render('editarticle', {
+            article
+        })
+    })
+    
+})
+
+// POST edit article
+router.post('/edit/:id', async (req, res) => {
+    await Article.findById(req.params.id, (err, article) => {
+        if(err) throw err;
+        const { headline, articleContent} = req.body;
+        article.headline = headline
+        article.articleContent = articleContent
+        article.save().then(article =>{
+            // console.log(article);
+            req.flash('success', 'You have successfully edited your article.')
+        }).catch(err=>console.log(err));
+        
+        res.redirect(`/articles/${req.params.id}`)
+    })
+
+})
+
 module.exports = router;
+
