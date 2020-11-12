@@ -24,4 +24,16 @@ router.post('/addarticle', (req, res) =>{
     res.send("success");
 })
 
+// GET article
+
+router.get('/:id', async (req, res) => {
+    
+    await Article.findById(req.params.id, (err, article) => {
+        if (err) throw err;
+     res.render('articleview', {
+         article
+     })   
+    })
+})
+
 module.exports = router;
