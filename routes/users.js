@@ -84,7 +84,7 @@ router.get('/login', mustNotBeAuthed, (req, res) => {
     res.render('login');
 });
 
-//POST login
+// POST login
 router.post('/login', (req, res, next) => {
     passport.authenticate('local',{
         successRedirect: '/dashboard',
@@ -92,7 +92,7 @@ router.post('/login', (req, res, next) => {
         failureFlash: true
     })(req,res, next);
 });
-
+// GET logout
 router.get('/logout', (req, res)=>{
     req.logout();
     req.flash('success', 'You have successfully logged out');

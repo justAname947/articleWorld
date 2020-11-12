@@ -20,8 +20,7 @@ router.post('/addarticle', (req, res) =>{
     newArticle.save().then(article => {
         req.flash('success', 'You have successfully added an article');
     }).catch(err => console.log(err));
-    console.log(newArticle);
-    res.send("success");
+    res.redirect('/dashboard');
 })
 
 // GET article
@@ -34,6 +33,28 @@ router.get('/:id', async (req, res) => {
          article
      })   
     })
+})
+
+// GET delete article confirm
+
+router.get('/deleteConfirm/:id', async (req, res) => {
+    await Article.findById(req.params.id, (err, article) => {
+        if (err) throw err;
+     res.render('deleteConfirm', {
+         article
+     })   
+    })
+})
+
+// Get delete
+
+router.get('/delete/:id', async (req, res) => {
+    //delete from database
+    await Article.findByIdAndDelete(req.params.id, (err) => {
+        if (err) throw err;
+    })
+    req.flash('success', 'The article has successfully been deleted.')
+    res.redirect('/dashboard');
 })
 
 module.exports = router;
