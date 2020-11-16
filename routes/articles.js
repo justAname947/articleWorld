@@ -79,9 +79,10 @@ router.post('/edit/:id', async (req, res) => {
         article.save().then(article =>{
             // console.log(article);
             req.flash('success', 'You have successfully edited your article.')
+            res.redirect(`/dashboard`)
         }).catch(err=>console.log(err));
         
-        res.redirect(`/articles/${req.params.id}`)
+        
     })
 
 })
